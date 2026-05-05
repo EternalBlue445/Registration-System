@@ -53,18 +53,18 @@ POST /verify-otp
 
 | Decision | Rationale |
 |---|---|
-| **SQLite (SqlAlchemy)** | Zero extra dependencies, full SQL control, perfect for self-contained demos |
+| **SQLite (SqlAlchemy)** | Database operations were done with SqlAlchemy ORM |
 | **Gmail API (not SMTP)** | No relay needed, OAuth2, reliable delivery, works within Google's ecosystem |
-| **FastAPI BackgroundTasks** | Email sends are non-blocking; `/register` returns in <50ms regardless of Gmail latency |
+| **FastAPI BackgroundTasks** | Email sends are non-blocking; `/register` |
 | **Pending → Verified state machine** | Re-registering while pending resets the OTP cleanly |
 
 ---
 
 ## Prerequisites
 
-- Python 3.11+
-- Node.js 18+
-- A Google Cloud project with Gmail API enabled (see below)
+- Python
+- Node.js
+- A Google Cloud project with Gmail API enabled
 
 ## Installation & Running
 
