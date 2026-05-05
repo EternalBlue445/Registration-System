@@ -28,17 +28,17 @@ registration-system/
 ```
 User enters email
       │
-      ▼
+      v
 POST /register
   ├─ Already verified? → 409 (User already registered)
   ├─ New / pending?    → Insert/reset user + OTP in DB
-  │                       → Return 200 immediately
-  │                       → Send email asynchronously (background task)
+                          → Return 200 immediately
+                          → Send email asynchronously (background task)
       │
-      ▼
+      v
 User enters 6-digit OTP
       │
-      ▼
+      v
 POST /verify-otp
   ├─ Not found?        → 404
   ├─ Expired?          → 400
@@ -117,19 +117,21 @@ pytest tests/test_api.py -v
 ```json
 { "email": "user@example.com" }
 ```
-**200** `{ "success": true, "message": "OTP sent..." }`
-**409** `{ "detail": { "success": false, "message": "User already registered" } }`
+**Status_code:200** `{ "success": true, "message": "OTP sent..." }`
+
+**Status_code:409** `{ "success": false, "message": "User already registered" } `
 
 ### `POST /verify-otp`
 ```json
 { "email": "user@example.com", "otp": "123456" }
 ```
-**200** `{ "success": true, "message": "Registration successful!" }`
-**400** `{ "detail": { "success": false, "message": "Invalid OTP. 3 attempt(s) remaining." } }`
+**Status_code:200** `{ "success": true, "message": "Registration successful!" }`
+
+**Status_code:400** `{ "success": false, "message": "Invalid OTP. 3 attempt(s) remaining." }`
 
 ### `POST /resend-otp`
 ```json
 { "email": "user@example.com" }
 ```
-**200** `{ "success": true, "message": "A new OTP has been sent to your email." }`
+**Status_code:200** `{ "success": true, "message": "A new OTP has been sent to your email." }`
 

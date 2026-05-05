@@ -36,7 +36,7 @@ CREDENTIALS_FILE = Path(__file__).parent / "credentials.json"
 TOKEN_FILE = Path(__file__).parent / "token.json"
 GMAIL_SCOPES = ["https://www.googleapis.com/auth/gmail.send"]
 
-OTP_EXPIRY_MINUTES = 10
+OTP_EXPIRY_MINUTES = 2
 OTP_MAX_ATTEMPTS = 5
 
 engine = create_engine(f"sqlite:///{DB_PATH}", connect_args={"check_same_thread": False})
@@ -227,3 +227,42 @@ def verify_otp(payload: VerifyRequest):
         db.commit()
 
     return {"status_code": 200, "success": True, "message": "Registration successful!"}
+
+@app.post("/resend-otp")
+async def resend_otp(payload: RegisterRequest, background_tasks: BackgroundTasks):
+    email = payload.email.lower().strip()
+
+    with get_session() as db:
+        user = db.query(User).filter(User.email == email).first()
+
+        if not user:
+            raise HTTPException(status_code=404, detail={
+                "success": False,
+                "message": "Email not found. Please register first."
+            })
+
+        if user.is_verified:
+            raise HTTPException(status_code=409, detail={
+                "success": False,
+                "message": "User already registered."
+            })
+
+        db.query(OTP).filter(OTP.user_id == user.id).delete()
+
+        otp = generate_otp()
+
+        db.add(OTP(
+            user_id=user.id,
+            otp=otp,
+            expires_at=datetime.now(timezone.utc) + timedelta(minutes=OTP_EXPIRY_MINUTES),
+        ))
+
+        db.commit()
+
+    background_tasks.add_task(send_email, email, otp)
+
+    return {
+        "status_code": 200,
+        "success": True,
+        "message": "A new OTP has been sent to your email."
+    }
