@@ -212,8 +212,6 @@ def verify_otp(payload: VerifyRequest):
                 "success": False, 
                 "message": "No OTP found. Please register again."
             })
-
-      
         now = datetime.now(timezone.utc).replace(tzinfo=None, microsecond=0)
         expires_at = record.expires_at.replace(microsecond=0)
         if now > expires_at:
