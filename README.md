@@ -117,21 +117,21 @@ pytest tests/test_api.py -v
 ```json
 { "email": "user@example.com" }
 ```
-**Status_code:200** `{ "success": true, "message": "OTP sent..." }`
+**Status_code: 200** `{ "success": true, "message": "OTP sent..." }`
 
-**Status_code:409** `{ "success": false, "message": "User already registered" } `
+**Status_code: 409** `{ "success": false, "message": "User already registered" } `
 
 ### `POST /verify-otp`
 ```json
 { "email": "user@example.com", "otp": "123456" }
 ```
-**Status_code:200** `{ "success": true, "message": "Registration successful!" }`
+**Status_code: 200** `{ "success": true, "message": "Registration successful!" }`
 
-**Status_code:400** `{ "success": false, "message": "Invalid OTP. 3 attempt(s) remaining." }`
+**Status_code: 400** `{ "success": false, "message": "Invalid OTP. 3 attempt(s) remaining." }`
 
 ### `POST /resend-otp`
 ```json
 { "email": "user@example.com" }
 ```
-**Status_code:200** `{ "success": true, "message": "A new OTP has been sent to your email." }`
+**Status_code: 200** `{ "success": true, "message": "A new OTP has been sent to your email." }`
 
