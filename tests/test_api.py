@@ -1,10 +1,3 @@
-"""
-Run with:  pytest tests/test_api.py -v
-
-Gmail is mocked in every test — no credentials needed.
-The DB is a temp file that is wiped before each test class.
-"""
-
 import sys
 import tempfile
 from datetime import datetime, timedelta, timezone
