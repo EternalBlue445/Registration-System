@@ -104,9 +104,9 @@ pytest tests/test_api.py -v
 
 | Category | Tests |
 |---|---|
-| Registration flow | New user, already verified (409), pending reset, invalid email |
+| Registration flow | New user, already verified (409), invalid email |
 | OTP verification | Correct OTP, wrong OTP, expired OTP, unknown email, too many attempts |
-| Error handling | 404, 409, 422, 429 shapes; `success` field in all responses |
+| Error handling | Different errors were handled returning status_codes with the responses. Ex. 404, 409, 422, 429 and added `success` field in all responses |
 | JSON responses | All success paths include `"success": true` |
 
 ---
