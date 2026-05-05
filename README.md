@@ -1,11 +1,11 @@
-# OTP Registration System
+# Registration System
 
 A full-stack user registration system with email OTP verification built with FastAPI + React.
 
 ## Architecture Overview
 
 ```
-otp-registration/
+registration-system/
 ├── backend/
 │   ├── main.py         
 │   ├── requirements.txt
