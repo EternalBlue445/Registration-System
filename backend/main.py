@@ -1,11 +1,4 @@
 """
-ARCHITECTURAL DECISIONS:
-  - SQLAlchemy ORM over SQLite. No raw SQL, easy to swap DB later.
-  - OTP is hashed with SHA-256 before storing. Raw OTP never touches the DB.
-  - Email is sent in a background task so /register responds immediately.
-  - Registration is only marked complete after OTP is verified.
-  - If email sending fails, registration still proceeds (OTP stays in DB).
-
 ASSUMPTIONS:
   - Welcome email contains the OTP. Plain minimal HTML, no heavy styling.
   - After OTP verification, the React frontend shows "Registration Successful!".
