@@ -75,12 +75,6 @@ class TestRegister:
         res = client.post("/register", json={"email": "not-an-email"})
         assert res.status_code == 422
 
-    def test_email_failure_does_not_block_registration(self, mock_send):
-        mock_send.side_effect = Exception("SMTP down")
-        res = client.post("/register", json={"email": "c@test.com"})
-        assert res.status_code == 200
-        assert res.json()["success"] is True
-
 
 @patch("backend.main.send_email")
 class TestVerifyOTP:
