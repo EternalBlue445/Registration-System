@@ -1,0 +1,28 @@
+# Gmail OAuth credentials — never commit these
+backend/credentials.json
+backend/token.json
+
+# Database
+backend/registration.db
+backend/*.db
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+
+# Node / React
+frontend/node_modules/
+frontend/dist/
+
+# Environment files
+.env
+.env.*
+
+# OS
+.DS_Store
+Thumbs.db
