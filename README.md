@@ -54,9 +54,8 @@ POST /verify-otp
 | Decision | Rationale |
 |---|---|
 | **SQLite (SqlAlchemy)** | Database operations were done with SqlAlchemy ORM |
-| **Gmail API (not SMTP)** | No relay needed, OAuth2, reliable delivery, works within Google's ecosystem |
-| **FastAPI BackgroundTasks** | Email sends are non-blocking; `/register` |
-| **Pending → Verified state machine** | Re-registering while pending resets the OTP cleanly |
+| **FastAPI BackgroundTasks** | Email sends are non-blocking |
+| **Re-registration** | Re-registering while pending resets the OTP cleanly |
 
 ---
 
