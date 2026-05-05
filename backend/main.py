@@ -29,18 +29,37 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from google.auth.transport.requests import Request as GoogleRequest
-from .models import Base,User,OTP
 
 DB_PATH = Path(__file__).parent / "registration.db"
 CREDENTIALS_FILE = Path(__file__).parent / "credentials.json"
 TOKEN_FILE = Path(__file__).parent / "token.json"
 GMAIL_SCOPES = ["https://www.googleapis.com/auth/gmail.send"]
 
-OTP_EXPIRY_MINUTES = 2
+OTP_EXPIRY_MINUTES = 1
 OTP_MAX_ATTEMPTS = 5
 
 engine = create_engine(f"sqlite:///{DB_PATH}", connect_args={"check_same_thread": False})
 
+from sqlalchemy import create_engine, Column, Integer, String, DateTime
+from sqlalchemy.orm import DeclarativeBase, Session
+
+class Base(DeclarativeBase):
+    pass
+
+class User(Base):
+    __tablename__ = "users"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    email = Column(String, unique=True, nullable=False)
+    is_verified = Column(Integer, default=0)
+
+
+class OTP(Base):
+    __tablename__ = "otps"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, nullable=False)
+    otp = Column(String, nullable=False)
+    attempts = Column(Integer, default=0)
+    expires_at = Column(DateTime(timezone=True), nullable=False)  
 
 Base.metadata.create_all(engine)
 
@@ -250,7 +269,7 @@ async def resend_otp(payload: RegisterRequest, background_tasks: BackgroundTasks
         db.query(OTP).filter(OTP.user_id == user.id).delete()
 
         otp = generate_otp()
-
+        print(otp)
         db.add(OTP(
             user_id=user.id,
             otp=otp,

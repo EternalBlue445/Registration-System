@@ -71,7 +71,7 @@ function OTPScreen({ email, onSuccess, onFailure }) {
   const [resending, setResending] = useState(false);
   const [error, setError] = useState("");
   const [resendMsg, setResendMsg] = useState("");
-  const [countdown, setCountdown] = useState(600); // 10 min
+  const [countdown, setCountdown] = useState(60); // 1 min
   const inputRefs = useRef([]);
 
   /* countdown timer */
@@ -136,7 +136,7 @@ function OTPScreen({ email, onSuccess, onFailure }) {
     const { ok, data } = await api("/resend-otp", { email });
     setResending(false);
     if (ok) {
-      setCountdown(600);
+      setCountdown(60);
       setDigits(["", "", "", "", "", ""]);
       setResendMsg("A new OTP has been sent!");
     } else {
