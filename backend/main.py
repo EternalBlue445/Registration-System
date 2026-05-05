@@ -35,7 +35,7 @@ CREDENTIALS_FILE = Path(__file__).parent / "credentials.json"
 TOKEN_FILE = Path(__file__).parent / "token.json"
 GMAIL_SCOPES = ["https://www.googleapis.com/auth/gmail.send"]
 
-OTP_EXPIRY_MINUTES =1
+OTP_EXPIRY_MINUTES = 1
 OTP_MAX_ATTEMPTS = 5
 
 engine = create_engine(f"sqlite:///{DB_PATH}", connect_args={"check_same_thread": False})
